@@ -1,9 +1,15 @@
 const express = require('express');
 const app = express();
+const bodyParser = require('body-parser')
+const cors = require('cors')
+
 const PerimBigQuery = require('./module/bigquery');
 const PerimQuery = require('./queries/perim-query');
 
 const port = 3000;
+
+app.use(cors());
+app.use(bodyParser.json())
 
 const perimBigQuery = PerimBigQuery.init();
 const perimQuery = new PerimQuery(perimBigQuery);
