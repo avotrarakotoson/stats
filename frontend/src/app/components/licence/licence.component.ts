@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, ViewChild } from '@angular/core';
 import { ChartConfiguration, ChartData, ChartType } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import { DataService } from 'src/services/data.service';
@@ -6,7 +6,8 @@ import { DataService } from 'src/services/data.service';
 @Component({
   selector: 'app-licence',
   templateUrl: './licence.component.html',
-  styleUrls: ['./licence.component.css']
+  styleUrls: ['./licence.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LicenceComponent implements OnInit {
   @ViewChild(BaseChartDirective) chart: BaseChartDirective | undefined;

@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
 import { ChartConfiguration, ChartData, ChartType } from 'chart.js';
 import { BaseChartDirective } from 'ng2-charts';
 import { debounceTime } from 'rxjs';
@@ -7,33 +7,23 @@ import { DataService } from 'src/services/data.service';
 @Component({
   selector: 'app-language',
   templateUrl: './language.component.html',
-  styleUrls: ['./language.component.css']
+  styleUrls: ['./language.component.css'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class LanguageComponent implements OnInit {
   limit: number = 5;
   search = '';
   @ViewChild(BaseChartDirective) chart: BaseChartDirective | undefined;
-  barChartOptions: ChartConfiguration['options'] = {
-    responsive: true,
-    scales: {
-      x: {},
-      y: {
-        min: 10
-      }
-    },
-    plugins: {
-      legend: {
-        display: false,
-      },
-    }
-  };
-  barChartType: ChartType = 'bar';
-  public languagesChartData: ChartData<'bar'> = {
+  barChartType: ChartType = 'pie';
+  public languagesChartData: ChartData<ChartType> = {
     labels: [],
     datasets: []
   };
 
-  constructor(private dataService: DataService) {}
+  constructor(
+    private dataService: DataService,
+    private cd: ChangeDetectorRef,
+  ) {}
 
   ngOnInit(): void {
     this.dataService.getLanguages()
@@ -72,5 +62,38 @@ export class LanguageComponent implements OnInit {
         this.languagesChartData.datasets.push({ data });
         this.chart?.update();
       });
+  }
+
+  onChartTypeChange($event: any) {
+    this.barChartType = $event.target.value;
+  }
+
+  getOptions(type: ChartType): ChartConfiguration['options'] {
+    if (type === 'bar') {
+      return {
+        responsive: true,
+        scales: {
+          x: {},
+          y: {
+            min: 10
+          }
+        },
+        plugins: {
+          legend: {
+            display: false,
+          },
+        }
+      };
+    }
+
+    return {
+      responsive: true,
+      plugins: {
+        legend: {
+          display: true,
+          position: 'right',
+        },
+      }
+    }
   }
 }
