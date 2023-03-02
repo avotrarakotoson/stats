@@ -1,9 +1,12 @@
 <h2>5 licences les plus utilisées sur Github</h2>
-<div *ngIf="licences$ | async as licences">
-  {{ licences | json }}
+
+<div class="licence">
+  <canvas baseChart class="chart"
+    [data]="licencesChartData"
+    [type]="pieChartType"
+    [options]="pieChartOptions"
+  >
+  </canvas>
 </div>
 
 <h2>Principaux languages utilisés dans Github</h2>
-<div *ngIf="languages$ | async as languages">
-  {{ languages | json }}
-</div>
