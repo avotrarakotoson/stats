@@ -19,12 +19,18 @@ app.get('/', (req, res) => {
 })
 
 app.get('/licences', async (req, res) => {
-  const licences = await perimQuery.getLicences({ keyword: 'gpl', limit: 5 });
+  const limit = req.query.limit ?? 5;
+  const keyword = req.query.keyword ?? '';
+
+  const licences = await perimQuery.getLicences({ keyword, limit: parseInt(limit) });
   res.json(licences);
 });
 
 app.get('/languages', async (req, res) => {
-  const languages = await perimQuery.getLanguages({ keyword: 'php', limit: 10 });
+  const limit = req.query.limit ?? 5;
+  const keyword = req.query.keyword ?? '';
+
+  const languages = await perimQuery.getLanguages({ keyword, limit: parseInt(limit) });
   res.json(languages);
 });
 
