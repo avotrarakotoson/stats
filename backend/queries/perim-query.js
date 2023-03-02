@@ -4,7 +4,7 @@ class PerimQuery {
   }
 
   async getLicences(params) {
-    const { keyword } = params;
+    const { keyword, limit } = params;
 
     let query = `
       SELECT licenses.license AS license, count(*) AS total
@@ -22,12 +22,13 @@ class PerimQuery {
     query += `
       GROUP BY license
       ORDER BY total DESC
-      LIMIT 5
+      LIMIT @limit
     `;
 
     const options = {
       query: query,
       location: 'US',
+      params: { limit }
     };
 
     const [rows] = await this.bigquery.query(options);
@@ -36,7 +37,7 @@ class PerimQuery {
   }
 
   async getLanguages(params) {
-    const { keyword } = params;
+    const { keyword, limit } = params;
     let query = `
       SELECT arr.name AS LANGUAGE,
       sum(arr.bytes) AS total_bytes
@@ -54,12 +55,13 @@ class PerimQuery {
     query += `
       GROUP BY LANGUAGE
       ORDER BY total_bytes DESC
-      LIMIT 10
+      LIMIT @limit
     `;
 
     const options = {
       query: query,
       location: 'US',
+      params: { limit }
     };
 
     const [rows] = await this.bigquery.query(options);

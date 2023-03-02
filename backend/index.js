@@ -13,12 +13,12 @@ app.get('/', (req, res) => {
 })
 
 app.get('/licences', async (req, res) => {
-  const licences = await perimQuery.getLicences({ keyword: 'gpl' });
+  const licences = await perimQuery.getLicences({ keyword: 'gpl', limit: 5 });
   res.json(licences);
 });
 
 app.get('/languages', async (req, res) => {
-  const languages = await perimQuery.getLanguages({ keyword: 'php' });
+  const languages = await perimQuery.getLanguages({ keyword: 'php', limit: 10 });
   res.json(languages);
 });
 
