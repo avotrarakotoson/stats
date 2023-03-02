@@ -1,3 +1,12 @@
+<div>
+  Limit
+  <select [(ngModel)]="limit" (change)="onLimitChange()">
+    <option value="5">5</option>
+    <option value="10">10</option>
+    <option value="15">15</option>
+  </select>
+</div>
+
 <div class="language">
   <canvas baseChart class="chart"
     [data]="languagesChartData"

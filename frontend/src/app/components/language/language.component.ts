@@ -9,6 +9,7 @@ import { DataService } from 'src/services/data.service';
   styleUrls: ['./language.component.css']
 })
 export class LanguageComponent implements OnInit {
+  limit: number = 5;
   @ViewChild(BaseChartDirective) chart: BaseChartDirective | undefined;
   barChartOptions: ChartConfiguration['options'] = {
     responsive: true,
@@ -44,4 +45,15 @@ export class LanguageComponent implements OnInit {
       });
   }
 
+  onLimitChange() {
+    this.dataService.getLanguages({ limit: this.limit })
+      .subscribe(licences => {
+        const labels = licences.map(licence => licence.language);
+        const data = licences.map(licence => licence.totalBytes);
+
+        this.languagesChartData.labels = labels;
+        this.languagesChartData.datasets.push({ data });
+        this.chart?.update();
+      });
+  }
 }
