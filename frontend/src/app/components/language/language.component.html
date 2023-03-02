@@ -1,4 +1,9 @@
 <div class="filter">
+  Search by language name
+  <input type="search" [(ngModel)]="search" (input)="onSearch()">
+</div>
+
+<div class="filter">
   Limit
   <select [(ngModel)]="limit" (change)="onLimitChange()">
     <option value="5">5</option>
